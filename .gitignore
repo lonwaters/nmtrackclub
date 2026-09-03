@@ -1,0 +1,15 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*~
+*.swp
+.idea/
+.vscode/
+
+# Secrets and local config
+.env
+.env.*
+config.local.php
+wp-config.php          # if WordPress and it holds DB credentials
+*.pem
+*.key
