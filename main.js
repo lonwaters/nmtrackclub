@@ -580,7 +580,8 @@
     var container = document.getElementById('results-grid');
     if (!section || !container) return;
     if (events.length === 0) {
-      section.hidden = true;
+      container.innerHTML = '<p class="results-empty">No results yet. Check back after our next event.</p>';
+      section.hidden = false;
       return;
     }
     container.innerHTML = events.map(function (e) {
@@ -595,7 +596,11 @@
       render(events);
     }, function () {
       var section = document.getElementById('results-section');
-      if (section) section.hidden = true;
+      var container = document.getElementById('results-grid');
+      if (container) {
+        container.innerHTML = '<p class="results-empty">Results unavailable right now. Please check back shortly.</p>';
+      }
+      if (section) section.hidden = false;
     });
   }
 
