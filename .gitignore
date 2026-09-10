@@ -13,3 +13,6 @@ config.local.php
 wp-config.php          # if WordPress and it holds DB credentials
 *.pem
 *.key
+
+# AI files
+CLAUDE.md

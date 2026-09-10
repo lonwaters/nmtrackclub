@@ -370,14 +370,14 @@
    (event + date is the grouping key; discipline is required; place and
    time are both optional so field events can list place-only.)
 
-   Only the MAX_EVENTS most-recent events show on the page. Older events
-   stay in the CSV but scroll off the visible list.
+   Every event in the CSV is shown, most-recently-finished first.
+   Current-year events list as individual cards; previous years are
+   grouped under a collapsed "YYYY Results" dropdown per year.
    ═══════════════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
 
   var RESULTS_CSV_URL = 'results.csv';    // ← replace with published Sheets URL when ready
-  var MAX_EVENTS = 4;                     // number of most-recent events to show
   var GROUP_BY_KEY = 'discipline';              // "auto" | "discipline" | "member"
 
   var MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun',
@@ -575,6 +575,31 @@
            '</article>';
   }
 
+  function eventYear(event) {
+    return (event.endDate || event.startDate || '').substring(0, 4);
+  }
+
+  function renderEventList(events) {
+    return events.map(function (e) {
+      return renderEventCard(e, chooseGrouping(e, GROUP_BY_KEY));
+    }).join('');
+  }
+
+  function renderYearArchive(year, events) {
+    var esc = NMTC.escapeHTML;
+    return '<div class="results-year-archive">' +
+             '<details class="results-year-details">' +
+               '<summary class="results-year-header">' +
+                 '<span class="results-year-title">' + esc(year) + ' Results</span>' +
+                 '<span class="event-result-toggle" aria-hidden="true"></span>' +
+               '</summary>' +
+               '<div class="results-year-events">' +
+                 renderEventList(events) +
+               '</div>' +
+             '</details>' +
+           '</div>';
+  }
+
   function render(events) {
     var section = document.getElementById('results-section');
     var container = document.getElementById('results-grid');
@@ -584,15 +609,35 @@
       section.hidden = false;
       return;
     }
-    container.innerHTML = events.map(function (e) {
-      return renderEventCard(e, chooseGrouping(e, GROUP_BY_KEY));
-    }).join('');
+
+    var currentYear = String(new Date().getFullYear());
+    var current = [];
+    var byYear = {};
+    var pastYears = [];
+    events.forEach(function (e) {
+      var y = eventYear(e);
+      if (!y || y >= currentYear) {
+        current.push(e);
+      } else if (!(y in byYear)) {
+        byYear[y] = [e];
+        pastYears.push(y);
+      } else {
+        byYear[y].push(e);
+      }
+    });
+    pastYears.sort(function (a, b) { return a < b ? 1 : a > b ? -1 : 0; });
+
+    var html = renderEventList(current);
+    pastYears.forEach(function (y) {
+      html += renderYearArchive(y, byYear[y]);
+    });
+    container.innerHTML = html;
     section.hidden = false;
   }
 
   function loadResults() {
     NMTC.fetchCSV(RESULTS_CSV_URL, function (rows) {
-      var events = groupIntoEvents(rows).slice(0, MAX_EVENTS);
+      var events = groupIntoEvents(rows);
       render(events);
     }, function () {
       var section = document.getElementById('results-section');
