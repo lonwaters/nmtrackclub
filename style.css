@@ -384,12 +384,12 @@
     letter-spacing: 0.15em; text-transform: uppercase; color: var(--turquoise);
     margin-bottom: 0.8rem;
   }
-  .coach-bio { font-size: 0.88rem; font-weight: 300; color: var(--muted); line-height: 1.7; }
+  .coach-bio { font-size: 0.88rem; font-weight: 300; color: rgba(245,243,238,0.8); line-height: 1.7; }
   .coach-bio-list {
     font-family: var(--ff-body);
     font-size: 0.88rem;
     font-weight: 300;
-    color: var(--muted);
+    color: rgba(245,243,238,0.8);
     line-height: 1.7;
     list-style-type: disc;
     list-style-position: outside;
@@ -403,11 +403,11 @@
     font-family: var(--ff-body);
     font-size: 0.88rem;
     font-weight: 300;
-    color: var(--muted);
+    color: rgba(245,243,238,0.8);
     line-height: 1.7;
     margin: 0.15rem 0;
   }
-  .coach-bio-list li::marker { color: var(--muted); }
+  .coach-bio-list li::marker { color: inherit; }
 
   /* CONTACT */
   .contact-section { background: var(--dark); }
