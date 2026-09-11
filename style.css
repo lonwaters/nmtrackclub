@@ -317,6 +317,9 @@
     color: var(--white); margin-bottom: 0.8rem;
   }
   .schedule-desc { font-size: 0.9rem; font-weight: 300; color: var(--muted); line-height: 1.7; }
+  .schedule-meta { margin-top: 0.8rem; font-size: 0.9rem; font-weight: 300; color: var(--muted); line-height: 1.7; }
+  .schedule-meta div { margin-top: 0.2rem; }
+  .schedule-meta strong { color: var(--white); font-weight: 500; }
   .member-note {
     background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.3);
     padding: 1.5rem 2rem; margin-top: 2.5rem;
