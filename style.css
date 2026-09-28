@@ -317,9 +317,6 @@
     color: var(--white); margin-bottom: 0.8rem;
   }
   .schedule-desc { font-size: 0.9rem; font-weight: 300; color: var(--muted); line-height: 1.7; }
-  .schedule-meta { margin-top: 0.8rem; font-size: 0.9rem; font-weight: 300; color: var(--muted); line-height: 1.7; }
-  .schedule-meta div { margin-top: 0.2rem; }
-  .schedule-meta strong { color: var(--white); font-weight: 500; }
   .member-note {
     background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.3);
     padding: 1.5rem 2rem; margin-top: 2.5rem;
@@ -384,30 +381,7 @@
     letter-spacing: 0.15em; text-transform: uppercase; color: var(--turquoise);
     margin-bottom: 0.8rem;
   }
-  .coach-bio { font-size: 0.88rem; font-weight: 300; color: rgba(245,243,238,0.8); line-height: 1.7; }
-  .coach-bio-list {
-    font-family: var(--ff-body);
-    font-size: 0.88rem;
-    font-weight: 300;
-    color: rgba(245,243,238,0.8);
-    line-height: 1.7;
-    list-style-type: disc;
-    list-style-position: outside;
-    /* padding-left gives the markers room after the global padding reset;
-       margin-left indents the whole list past the surrounding bio text. */
-    padding-left: 1.5em;
-    margin: 0.45rem 0 0.85rem 1.25em;
-  }
-  .coach-bio-list li {
-    display: list-item;
-    font-family: var(--ff-body);
-    font-size: 0.88rem;
-    font-weight: 300;
-    color: rgba(245,243,238,0.8);
-    line-height: 1.7;
-    margin: 0.15rem 0;
-  }
-  .coach-bio-list li::marker { color: inherit; }
+  .coach-bio { font-size: 0.88rem; font-weight: 300; color: var(--muted); line-height: 1.7; }
 
   /* CONTACT */
   .contact-section { background: var(--dark); }
@@ -473,6 +447,17 @@
   .footer-email { font-size: 0.9rem; font-weight: 400; color: rgba(245,243,238,0.6); }
   .footer-email a { color: var(--turquoise); text-decoration: none; transition: color 0.2s; }
   .footer-email a:hover { color: var(--white); }
+  /* "Get in touch" call to the contact form — small, all-caps, on pages
+     that aren't membership.html (where the form itself lives). */
+  .footer-contact-cta {
+    font-family: var(--ff-head); font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--turquoise); text-decoration: none;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(31,176,192,0.4);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .footer-contact-cta:hover { color: var(--white); border-bottom-color: var(--white); }
   /* Group phone + social vertically so the outer footer stays 3 slots. */
   .footer-contact {
     display: flex; flex-direction: column; align-items: flex-end;
@@ -728,7 +713,6 @@
   /* Previous-year archives sit after the current-year cards. Native
      <details> keeps them collapsed until tapped; event cards inside
      reuse the same card styles as the current year. */
-  .results-year-archive { margin-top: 1.5rem; }
   .results-year-details {
     background: var(--surface);
     border-left: 3px solid var(--turquoise);

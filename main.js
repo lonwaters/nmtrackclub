@@ -55,7 +55,9 @@
 
   // ─── CONTACT FORM (Formspree) ────────────────────────────────────────
   // Only present on membership.html. On other pages this module no-ops.
-  var CONTACT_EMAIL = 'nmtrackclub@gmail.com';
+  // NOTE: no email address is hardcoded here on purpose — the club's real
+  // address is deliberately not in the site source to keep it away from
+  // scraper bots. The fallback error message points users to the phone.
 
   var form = document.getElementById('contact-form');
   var status = document.getElementById('form-status');
@@ -117,8 +119,8 @@
         });
       })
       .catch(function () {
-        setStatus("Sorry — your message couldn't be sent right now. Please email us directly at " +
-                  CONTACT_EMAIL + '.', 'error');
+        setStatus("Sorry — your message couldn't be sent right now. " +
+                  "Please try again in a moment, or call us at (505) 407-4298.", 'error');
       })
       .then(function () {
         if (button) { button.disabled = false; button.textContent = originalLabel; }
