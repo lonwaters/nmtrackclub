@@ -879,3 +879,62 @@
     loadGallery();
   }
 })();
+/* ═══════════════════════════════════════════════════════════════════════
+   LINKS — data-driven from links.csv.
+
+   HOW TO UPDATE THE LINKS PAGE
+   ----------------------------
+   Edit links.csv in this folder.
+       Columns:     category, name, url, description
+       category:    groups links under a heading (e.g. Running Clubs).
+                    Categories appear in the order they first show up
+                    in the file; links keep their file order too.
+       description: wrap in double quotes if it contains a comma.
+   ═══════════════════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+
+  var LINKS_CSV_URL = 'links.csv';   // ← replace with published Sheets URL if desired
+
+  function renderLink(l) {
+    var esc = NMTC.escapeHTML;
+    var host = l.url.replace(/^https?:\/\//i, '').replace(/^www\./i, '').replace(/\/$/, '');
+    return '<a class="link-card" href="' + esc(l.url) + '" target="_blank" rel="noopener">' +
+             '<span class="link-name">' + esc(l.name) + '</span>' +
+             '<span class="link-host">' + esc(host) + ' ↗</span>' +
+             (l.description ? '<span class="link-desc">' + esc(l.description) + '</span>' : '') +
+           '</a>';
+  }
+
+  function loadLinks() {
+    var container = document.getElementById('links-list');
+    if (!container) return;
+    NMTC.fetchCSV(LINKS_CSV_URL, function (rows) {
+      var groups = [], byName = {};
+      rows.filter(function (l) { return /^https?:\/\//i.test(l.url) && l.name; })
+        .forEach(function (l) {
+          var cat = l.category || 'Other';
+          if (!byName[cat]) { byName[cat] = []; groups.push(cat); }
+          byName[cat].push(l);
+        });
+      if (groups.length === 0) {
+        container.innerHTML = '<p class="links-empty">No links listed yet.</p>';
+        return;
+      }
+      container.innerHTML = groups.map(function (cat) {
+        return '<div class="links-group">' +
+                 '<h2 class="links-group-title">' + NMTC.escapeHTML(cat) + '</h2>' +
+                 '<div class="links-grid">' + byName[cat].map(renderLink).join('') + '</div>' +
+               '</div>';
+      }).join('');
+    }, function () {
+      container.innerHTML = '<p class="links-empty">Links unavailable right now. Please check back shortly.</p>';
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadLinks);
+  } else {
+    loadLinks();
+  }
+})();
